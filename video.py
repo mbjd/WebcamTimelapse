@@ -1,6 +1,6 @@
 # Combines a folder of frames into a video using moviepy
 #
-# usage: $ python video.py 60  webcamImages {churTimelapse}
+# usage: $ python video.py 60  webcamImages {webcamTimelapse}
 #                          fps directory    name
 # If the name is omitted, the video will have the same name as the folder
 # the images came from.
