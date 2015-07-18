@@ -14,7 +14,7 @@
 #  Some webcam urls to try:
 # 
 #  http://hgwwebcam.dyndns.org:5000/axis-cgi/jpg/image.cgi   Sailboats, ZH, CH
-#  http://80.75.114.18/axis-cgi/jpg/image.cgi?clock=1&text=0 KVA Horgen -> ZH
+#  http://80.75.114.18/axis-cgi/jpg/image.cgi?clock=1&text=0 KVA Horgen -> ZH, CH
 #  http://webcam.bodmer-chur.ch:8080/axis-cgi/jpg/image.cgi  Chur, CH
 #  http://bautzen.redirectme.net/axis-cgi/jpg/image.cgi      German Airport
 #  http://194.218.96.90/axis-cgi/jpg/image.cgi               Swedish Village
