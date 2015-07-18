@@ -2,7 +2,7 @@
 
 This python script (webcam.py) creates timelapse videos using webcam images. Usage is as follows:
 
-    $ python webcam.py 10 4h webcamImages http://webcam.com/current.jpg
+    $ python webcam.py 10 4h webcamImages http://example.com/webcam.jpg
 
 where:
 
