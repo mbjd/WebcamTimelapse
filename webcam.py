@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 #
 #  ### Program for making timelapse out of webcam images ###
 #  
@@ -14,7 +16,7 @@
 #  Some webcam urls to try:
 # 
 #  http://hgwwebcam.dyndns.org:5000/axis-cgi/jpg/image.cgi   Sailboats, ZH, CH
-#  http://80.75.114.18/axis-cgi/jpg/image.cgi?clock=1&text=0 KVA Horgen -> ZH, CH
+#  http://80.75.114.18/axis-cgi/jpg/image.cgi?clock=1&text=0 KVA Horgen -> ZH
 #  http://webcam.bodmer-chur.ch:8080/axis-cgi/jpg/image.cgi  Chur, CH
 #  http://bautzen.redirectme.net/axis-cgi/jpg/image.cgi      German Airport
 #  http://194.218.96.90/axis-cgi/jpg/image.cgi               Swedish Village
@@ -32,6 +34,7 @@
 #  http://213.213.183.83/SnapshotJPEG?Resolution=640x480     Bern, CH
 #  http://213.221.150.136/axis-cgi/jpg/image.cgi             Monthey, CH
 #  http://hogakusten.mine.nu/axis-cgi/jpg/image.cgi          Bridge in Sweden
+#  https://s3-eu-west-1.amazonaws.com/felsenegg-cam/cam0.jpg Restaurant Felsenegg
 #
 
 from moviepy.editor import *
@@ -48,12 +51,16 @@ url    = str(sys.argv[4])
 
 duration = int(sys.argv[2][:-1])
 
+# Convert duration of recording to seconds
 if sys.argv[2].endswith("d"):
     endTime = time.time() + 24 * 60 * 60 * duration
 elif sys.argv[2].endswith("h"):
     endTime = time.time() + 60 * 60 * duration
 elif sys.argv[2].endswith("m"):
     endTime = time.time() + 60 * duration
+elif sys.argv[2].endswith("s"):
+    endTime = time.time() + duration
+
 
 # Directory stuff
 homeDirectory = os.getcwd()
@@ -62,6 +69,7 @@ absPath = homeDirectory + '/' + folder
 if not os.path.exists(folder):
     os.makedirs(folder)
 
+# Downloader function
 def downloadImage(url, dir, name):
     image = urllib.URLopener()
     os.chdir(dir)
@@ -83,6 +91,8 @@ while currentTime < endTime:
         timeStr = '{0}.jpg'.format(int(currentTime))
         downloadImage(url, folder, timeStr)
 
+    # Sleep 0.1 seconds to make sure nothing is missed
+    # Also you can set the interval to something like 0.3 secs
     time.sleep(0.1)
 
 # Make the video - 60fps default
