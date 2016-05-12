@@ -3,7 +3,7 @@
 #
 #  ### Program for making timelapse out of webcam images ###
 #  
-#  usage: $ python webcam.py 3 2d webcamImages http://webcam.com/current.jpg
+#  usage: $ ./webcam.py 3 2d webcamImages http://webcam.com/current.jpg
 #  
 #  3: interval between images in seconds
 #  2d: How long to keep recording (X d/h/m)
@@ -17,6 +17,7 @@
 # 
 #  http://hgwwebcam.dyndns.org:5000/axis-cgi/jpg/image.cgi   Sailboats, ZH, CH
 #  http://80.75.114.18/axis-cgi/jpg/image.cgi?clock=1&text=0 KVA Horgen -> ZH
+#  http://80.75.114.19/axis-cgi/jpg/image.cgi?clock=1&text=0 KVA Horgen -> Rappi
 #  http://webcam.bodmer-chur.ch:8080/axis-cgi/jpg/image.cgi  Chur, CH
 #  http://bautzen.redirectme.net/axis-cgi/jpg/image.cgi      German Airport
 #  http://194.218.96.90/axis-cgi/jpg/image.cgi               Swedish Village
@@ -35,11 +36,19 @@
 #  http://213.221.150.136/axis-cgi/jpg/image.cgi             Monthey, CH
 #  http://hogakusten.mine.nu/axis-cgi/jpg/image.cgi          Bridge in Sweden
 #  https://s3-eu-west-1.amazonaws.com/felsenegg-cam/cam0.jpg Restaurant Felsenegg
+#  http://46.140.114.222:8080/axis-cgi/jpg/image.cgi         Balkon
+#  http://178.198.19.229/axis-cgi/jpg/image.cgi              UAV Lab
+#  http://178.198.70.22/axis-cgi/jpg/image.cgi               Camping
+#  http://212.243.94.2/axis-cgi/jpg/image.cgi                Honegg bei Buochs
+#  http://178.199.206.91/axis-cgi/jpg/image.cgi              Amateur radio shop
+#  http://46.150.196.132/cgi-bin/jpg/image.cgi               Roundabout
+#
+#  ... http://members.upc.nl/a.horlings/doc-google.html
 #
 
 from moviepy.editor import *
 import threading
-import urllib
+import requests
 import time
 import sys
 import os
@@ -71,11 +80,14 @@ if not os.path.exists(folder):
 
 # Downloader function
 def downloadImage(url, dir, name):
-    image = urllib.URLopener()
-    os.chdir(dir)
-    image.retrieve(url, name)
-    print('Saved image: ' + folder + '/' + name)
-    os.chdir(homeDirectory)
+	os.chdir(dir)
+
+	f = open(name, 'wb')
+	f.write(requests.get(url).content)
+	f.close()
+
+	print('Saved image: ' + folder + '/' + name)
+	os.chdir(homeDirectory)
 
 # Timing
 nextTime = time.time()
