@@ -42,6 +42,8 @@
 #  http://212.243.94.2/axis-cgi/jpg/image.cgi                Honegg bei Buochs
 #  http://178.199.206.91/axis-cgi/jpg/image.cgi              Amateur radio shop
 #  http://46.150.196.132/cgi-bin/jpg/image.cgi               Roundabout
+#  http://axis.meisal.com/axis-cgi/jpg/image.cgi             Fjellgrend, Norway
+#  http://posta.mukolin.cz/axis-cgi/jpg/image.cgi            Czech (?) town square
 #
 #  ... http://members.upc.nl/a.horlings/doc-google.html
 #
@@ -69,6 +71,8 @@ elif sys.argv[2].endswith("m"):
     endTime = time.time() + 60 * duration
 elif sys.argv[2].endswith("s"):
     endTime = time.time() + duration
+else:
+    print("Invalid argument: sys.argv[2] must be an integer + 'd', 'h', 'm' or 's'")
 
 
 # Directory stuff
@@ -80,14 +84,11 @@ if not os.path.exists(folder):
 
 # Downloader function
 def downloadImage(url, dir, name):
-	os.chdir(dir)
+    f = open(os.path.join(dir, name), 'wb')
+    f.write(requests.get(url).content)
+    f.close()
 
-	f = open(name, 'wb')
-	f.write(requests.get(url).content)
-	f.close()
-
-	print('Saved image: ' + folder + '/' + name)
-	os.chdir(homeDirectory)
+    print('Saved image: ' + folder + '/' + name)
 
 # Timing
 nextTime = time.time()
