@@ -111,6 +111,7 @@ while currentTime < endTime:
 # Make the video - 60fps default
 outputName = folder + '.mp4'
 names = [folder + '/' + name for name in os.listdir(folder) if name.endswith(".jpg")]
+names.sort()
 
 clip = ImageSequenceClip(names, fps = 60)
 clip.write_videofile(outputName, fps = 60)
