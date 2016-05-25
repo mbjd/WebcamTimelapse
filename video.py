@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Combines a folder of frames into a video using moviepy
 #
 # usage: $ python video.py 60  webcamImages {webcamTimelapse}
@@ -19,6 +21,7 @@ except Exception, e:
 
 # Pythonism ensues
 names = [directory + '/' + name for name in os.listdir(directory) if name.endswith(".jpg")]
+names.sort()
 
 clip = ImageSequenceClip(names, fps = frames)
 clip.write_videofile(outputName, fps = frames)
