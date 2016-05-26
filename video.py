@@ -16,7 +16,7 @@ directory = sys.argv[2]
 
 try:
     outputName = sys.argv[3] + '.mp4'
-except Exception, e:
+except Exception as e:
     outputName = directory + '.mp4'
 
 # Pythonism ensues
