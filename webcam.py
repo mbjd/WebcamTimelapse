@@ -2,19 +2,19 @@
 
 #
 #  ### Program for making timelapse out of webcam images ###
-#  
+#
 #  usage: $ ./webcam.py 3 2d webcamImages http://webcam.com/current.jpg
-#  
+#
 #  3: interval between images in seconds
 #  2d: How long to keep recording (X d/h/m)
 #  webcamImages: Name of the folder to save images. Will be created in getcwd()
 #  http://webcam.com/current.jpg: URL of the current image
-#  
+#
 #  After the specified time has elapsed, a video will be created at 60 fps.
 #  If you want to make another video at another framerate, use video.py.
 #
 #  Some webcam urls to try:
-# 
+#
 #  http://hgwwebcam.dyndns.org:5000/axis-cgi/jpg/image.cgi   Sailboats, ZH, CH
 #  http://80.75.114.18/axis-cgi/jpg/image.cgi?clock=1&text=0 KVA Horgen -> ZH
 #  http://80.75.114.19/axis-cgi/jpg/image.cgi?clock=1&text=0 KVA Horgen -> Rappi
@@ -47,9 +47,16 @@
 #
 #  ... http://members.upc.nl/a.horlings/doc-google.html
 #
+#  UPDATE
+#  ======
+#  A simpler way to get images is the following:
+#  while true; do echo $URL; sleep 2; done | xargs -n1 -P8 -I{} bash -c 'date +%s; wget {} -O $(date +%s).jpeg -a /dev/null;'
+# Which has the advantage that if loading an image takes longer than the planned time between
+# downloads, xargs makes the next request while the previous download is still running.
+# (It's up to the server if it can anwer requests that fast)
+#
 
 from moviepy.editor import *
-import threading
 import requests
 import time
 import sys
