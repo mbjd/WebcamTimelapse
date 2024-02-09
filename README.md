@@ -24,3 +24,12 @@ This is a very old project and I've learned to be more pragmatic since. The whol
     $ while true; do echo $URL; sleep 1; done | xargs -P8 -I{} sh -c 'wget -O ./webcam_images/$(date +%s.%N.jpg) {}'
 
 this uses 8 parallel threads to start downloading the next image even if previous ones are still downloading (obviously still limited by bandwidth and possibly the server which might refuse responding to many requests quickly). Stop it with `^C` whenever you like, or modify the loop in the beginning. After that, use [ffmpeg to combine them](https://stackoverflow.com/questions/24961127/how-to-create-a-video-from-images-with-ffmpeg).
+
+# update 2
+
+If an `mjpg` stream is available (if the URL is `..../axis-cgi/jpg/image.cgi` there is usually a stream at `.../axis-cgi/mjpg/video.cgi`), it can also be recorded directly with `ffmpeg`! 
+
+    ffmpeg -f mjpeg -framerate 30 -i 'https://83.77.144.55/axis-cgi/mjpg/video.cgi?fps=4' -c:v copy out.mp4
+
+The `fps` in the url modifies the udpate rate of the stream, and the one given to `ffmpeg` determines the one in the final video file, so by playing with them you can modify the speedup ratio. Stop this whenever you are satisfied by pressing `q`. Somehow it only works if the IP is used in the URL, so if you have a domain name find the IP `dig`, `ping` or similar. Also sometimes it randomly stops, so the method above may be more reliable.
+
